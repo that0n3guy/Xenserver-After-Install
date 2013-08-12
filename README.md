@@ -41,7 +41,8 @@ This is used if you're mounting NFS shares that the same server is exporting.  E
 and add that nfs share to xencenter (your basically mounting an nfs export on the same computer).  That causes shutdown issues.
 
 To use this script, do the following:
-- Add the script to "/etc/init.d/earlynetfs", then run the following commands:
+- Add the script to "/etc/init.d/earlynetfs", 
+- run the following commands:
 
     chmod +x /etc/init.d/earlynetfs
     chkconfig --add earlynetfs
