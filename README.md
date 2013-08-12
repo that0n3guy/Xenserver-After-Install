@@ -44,6 +44,8 @@ To use this script, do the following:
 - Add the script to "/etc/init.d/earlynetfs", 
 - run the following commands:
 
+run this:
+
     chmod +x /etc/init.d/earlynetfs
     chkconfig --add earlynetfs
 
