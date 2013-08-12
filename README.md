@@ -35,6 +35,30 @@ Installs needed files under ubuntu 12.04 and will login to a iscsi target (based
 A rc.local script that will autostart vapp's automatically on boot if they have "autostart" in the description of the vapps. 
 Added to dom0 for your in xenserver-tweaks-after-dom0-install.sh. Found this on: http://www.virtues.it/2012/01/howto-autostart-xs-vapp/
 
+##earlynetfs
+Used to un-mount NFS mounts before NFS server is shutdown (see the "Note about NFS on xenserver" below).  
+This is used if you're mounting NFS shares that the same server is exporting.  Example, if you create an nfs share for ISO's 
+and add that nfs share to xencenter (your basically mounting an nfs export on the same computer).  That causes shutdown issues.
+
+To use this script, do the following:
+- Add the script to "/etc/init.d/earlynetfs", then run the following commands:
+      chmod +x /etc/init.d/earlynetfs
+      chkconfig --add earlynetfs
+
+
+#Note about NFS on xenserver
+One thing I have found with xcp 1.6 (probably xenserver as well) is that if your serving and NFS export from dom0 
+and mount it with dom0 (same server), it will shut down very very slow.  This is because it will stop the NFS server before 
+unmounting the NFS mounts.
+
+A solution to that is the "earlynetfs" script.... see the description for it above.
+
+
+
+
+
+
+
 #Notes from making the scripts
 
 ##Manual Steps - much of this is automated in the above scripts. 
