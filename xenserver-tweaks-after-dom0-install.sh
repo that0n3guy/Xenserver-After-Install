@@ -51,6 +51,6 @@ exportfs -a
 echo showmount -e $EXPORTIP
 
 echo "" >> /etc/rc.d/rc.local
-wget --output-document=autostart-deletme http://pastebin.com/raw.php?i=pxSGuVEA 
-cat autostart-deletme >> /etc/rc.d/rc.local
-rm -f autostart-deletme
+wget https://raw.github.com/that0n3guy/Xenserver-After-Install/master/autostart-vapp 
+cat autostart-vapp >> /etc/rc.d/rc.local
+rm -f autostart-vapp
