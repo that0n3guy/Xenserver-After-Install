@@ -43,8 +43,8 @@ and add that nfs share to xencenter (your basically mounting an nfs export on th
 To use this script, do the following:
 - Add the script to "/etc/init.d/earlynetfs", then run the following commands:
 
-      chmod +x /etc/init.d/earlynetfs
-      chkconfig --add earlynetfs
+    chmod +x /etc/init.d/earlynetfs
+    chkconfig --add earlynetfs
 
 
 #Note about NFS on xenserver
