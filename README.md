@@ -88,11 +88,13 @@ Kinda like this:
 
 - format patition
 
-
+like this:
+ 
       mkfs.ext3 /dev/sdb1
 
 - mount the new partition and create 2 folders for nfs
 
+like this:
 
       #get UUID with:
       blkid
@@ -107,6 +109,7 @@ Kinda like this:
 
 - disable iptables:
 
+like this:
 
       /etc/rc.d/init.d/iptables stop
       chkconfig --del iptables
@@ -120,6 +123,7 @@ info:
 
 - make sure nfs starts on startup & start it
 
+like this:
 
       chkconfig --levels 235 nfs on 
       service nfs start
@@ -127,6 +131,7 @@ info:
 
 - make portmap starts
 
+like this:
 
       service portmap start
       service portmap restart
@@ -134,6 +139,7 @@ info:
 
 - configure nfs exports, edit: /etc/exports
 
+like this:
 
       echo "/mnt/disk1/vdisk        192.168.1.248(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
       echo "/mnt/disk1/iso        192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
@@ -145,11 +151,13 @@ info:
 
 - check that you have the nfs exports
 
+like this:
 
       showmount -e 192.168.1.248
 
 - create a shutdown script to unmount nfs before nfs server shutsdown but after vm's stop.  Otherwise the server will hang on shutdown/restart
 
+like this:
 
     wget the earlynetfs to /etc/init.d/earlynetfs 
     chmod +x /etc/init.d/earlynetfs
@@ -158,6 +166,7 @@ info:
 
 - verify that the script is in the right sections (rc0 and rc6)
 
+like this:
 
     find /etc/rc.d -name "*earlynetfs*" -print
     chkconfig --list
@@ -174,6 +183,8 @@ info:
 
 ###5. mount NFS on ubuntu 12.04
 
+like this:
+
     mount -v 192.168.1.5:/mnt/vmstore/iso /mnt/sriso
     #on server with port range: /mnt/vmstore/iso        192.168.1.0/24(rw,nohide,sync,no_sub...etc...
 
@@ -182,6 +193,8 @@ info:
     192.168.1.5:/mnt/vmstore/iso    /mnt/sriso      nfs     rsize=8192,wsize=8192,timeo=14,intr
 
 ###6. Adding iscsi target on xcp
+
+like this:
 
     yum --enablerepo=base install scsi-target-utils
     cat >> /etc/tgt/targets.conf <EOF
