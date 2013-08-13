@@ -75,6 +75,9 @@ IPTables:
 - [my solution since my router has a firewall] disable iptables (see the top of http://wiki.xen.org/wiki/NagiosXCP )
 
 - partition extra drives
+
+Kinda like this:
+
       fdisk /dev/sdb
         n
         p
@@ -84,13 +87,18 @@ IPTables:
         w
 
 - format patition
+
+
       mkfs.ext3 /dev/sdb1
 
 - mount the new partition and create 2 folders for nfs
+
+
       #get UUID with:
       blkid
-    
+      # make the folder
       mkdir /mnt/disk1
+      #add stuff to fstab
       echo "" >> /etc/fstab
       echo "#extra disks/partitions" >> /etc/fstab
       echo "UUID=10ed479c-f122-4c59-9313-293b22d7c769 /mnt/disk1 ext4 defaults 0 2" >> /etc/fstab
@@ -98,24 +106,35 @@ IPTables:
       mkdir /mnt/disk1/{vdisk,iso}
 
 - disable iptables:
+
+
       /etc/rc.d/init.d/iptables stop
       chkconfig --del iptables
 
 - Configure portmap
+
+info:
+
       sed -i 's/PMAP_ARGS=.*\+/PMAP_ARGS=""/' /etc/sysconfig/portmap
       chkconfig portmap on
 
 - make sure nfs starts on startup & start it
+
+
       chkconfig --levels 235 nfs on 
       service nfs start
       service nfs restart
 
 - make portmap starts
+
+
       service portmap start
       service portmap restart
 
 
 - configure nfs exports, edit: /etc/exports
+
+
       echo "/mnt/disk1/vdisk        192.168.1.248(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
       echo "/mnt/disk1/iso        192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)" >> /etc/exports
       
@@ -125,17 +144,21 @@ IPTables:
 
 
 - check that you have the nfs exports
+
+
       showmount -e 192.168.1.248
 
 - create a shutdown script to unmount nfs before nfs server shutsdown but after vm's stop.  Otherwise the server will hang on shutdown/restart
-    
+
+
     wget the earlynetfs to /etc/init.d/earlynetfs 
-    
     chmod +x /etc/init.d/earlynetfs
     chkconfig --add earlynetfs
 
 
 - verify that the script is in the right sections (rc0 and rc6)
+
+
     find /etc/rc.d -name "*earlynetfs*" -print
     chkconfig --list
 
@@ -150,8 +173,10 @@ IPTables:
 - to limit the dom0 cpu's and memory, set it in extlinux.conf in /boot
 
 ###5. mount NFS on ubuntu 12.04
+
     mount -v 192.168.1.5:/mnt/vmstore/iso /mnt/sriso
     #on server with port range: /mnt/vmstore/iso        192.168.1.0/24(rw,nohide,sync,no_sub...etc...
+
 
     #custom - fstab nfs mounts
     192.168.1.5:/mnt/vmstore/iso    /mnt/sriso      nfs     rsize=8192,wsize=8192,timeo=14,intr
@@ -159,19 +184,16 @@ IPTables:
 ###6. Adding iscsi target on xcp
 
     yum --enablerepo=base install scsi-target-utils
-    
     cat >> /etc/tgt/targets.conf <EOF
-    
-    
     <target iqn.2013-08.com.vhome:olddell500g>
         backing-store=/dev/sdb2 
         allow-in-use yes
         incominguser iscsiadm iscsiadm123
     </target>
-    
-    
     EOF
     
+    
+
     service tgtd restart
     chkconfig tgtd on
 
