@@ -1,6 +1,8 @@
 Xenserver-After-Install
 =======================
 
+Update - These scripts haven't been used in a while.   I've moved away from virtual (mostly) as docker is a much better option for me.  They should still work (since bash lives on forever).
+
 This repository contains some scripts that I use when installing/using xenserver (or xcp 1.6...).
 Most of these are meant to be run once on clean installs.  
 
